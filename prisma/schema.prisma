@@ -14,7 +14,7 @@ datasource db {
 }
 
 model Product {
-  id          String   @id @default(dbgenerated("uuid_generate_v7()")) @db.Uuid
+  id          String   @id @default(dbgenerated("uuidv7()")) @db.Uuid
   name        String
   description String?
   price       Float
@@ -23,4 +23,16 @@ model Product {
   updatedAt   DateTime @updatedAt
 
   @@map("products")
+}
+
+model Order {
+  id           String   @id @default(dbgenerated("uuidv7()")) @db.Uuid
+  customerName String
+  totalAmount  Float
+  status       String   @default("pending")
+  items        String   @default("[]")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("orders")
 }

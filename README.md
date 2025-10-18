@@ -21,6 +21,10 @@ A NestJS boilerplate project built with Clean Architecture principles, CQRS patt
 - ✅ Repository pattern for data access
 - ✅ Environment configuration
 - ✅ Type-safe Prisma ORM
+- ✅ Comprehensive testing (Unit, Integration, E2E)
+- ✅ CI/CD with GitHub Actions
+- ✅ Test coverage reporting
+- ✅ Automated dependency updates
 
 ## Project Structure
 
@@ -46,6 +50,15 @@ src/
 │   └── prisma.service.ts        # Prisma client service
 ├── app.module.ts
 └── main.ts
+
+test/
+├── unit/                         # Unit tests mirror src structure
+│   └── modules/
+│       ├── product/
+│       └── order/
+├── integration/                  # Integration tests
+├── e2e/                         # End-to-end tests
+└── helpers/                     # Test utilities & factories
 ```
 
 ## Setup
@@ -151,16 +164,38 @@ npx prisma format
 
 ## Testing
 
+This project includes comprehensive testing at three levels:
+
 ```bash
 # Unit tests
-pnpm run test
+pnpm test                    # Run unit tests
+pnpm test:watch              # Run in watch mode
+pnpm test:cov                # Run with coverage
+
+# Integration tests
+pnpm test:integration        # Test module interactions
 
 # E2E tests
-pnpm run test:e2e
+pnpm test:e2e                # Test complete API flows
 
-# Test coverage
-pnpm run test:cov
+# Run all tests
+pnpm test:all                # Run all test suites
+pnpm test:ci                 # Run all tests (CI mode)
 ```
+
+For detailed testing documentation, see [TESTING.md](./TESTING.md).
+
+## CI/CD
+
+This project includes a complete CI/CD pipeline with GitHub Actions:
+
+- ✅ Automated testing on all PRs
+- ✅ Code quality checks (ESLint, Prettier)
+- ✅ Test coverage reporting
+- ✅ Automated dependency updates (Dependabot)
+- ✅ Build verification
+
+For CI/CD setup and configuration, see [CI-CD.md](./CI-CD.md).
 
 ## Adding a New Module
 

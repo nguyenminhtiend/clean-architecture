@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 import { ProductController } from './product.controller';
 import { ProductRepository } from './infrastructure';
+import { ProductService } from './product.service';
 import { PrismaService } from '../../prisma/prisma.service';
 
 // Command Handlers
@@ -30,10 +31,14 @@ const QueryHandlers = [GetProductHandler, ListProductsHandler];
       provide: 'IProductRepository',
       useClass: ProductRepository,
     },
+    {
+      provide: 'IProductService',
+      useClass: ProductService,
+    },
     PrismaService,
     ...CommandHandlers,
     ...QueryHandlers,
   ],
-  exports: ['IProductRepository'],
+  exports: ['IProductRepository', 'IProductService'],
 })
 export class ProductModule {}
