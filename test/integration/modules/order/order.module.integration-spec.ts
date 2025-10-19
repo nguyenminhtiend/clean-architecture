@@ -25,6 +25,8 @@ describe('OrderModule Integration Tests', () => {
       .useValue(prismaMock)
       .compile();
 
+    await moduleRef.init();
+
     controller = moduleRef.get<OrderController>(OrderController);
   });
 

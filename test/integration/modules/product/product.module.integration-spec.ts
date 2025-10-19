@@ -21,6 +21,8 @@ describe('ProductModule Integration Tests', () => {
       .useValue(prismaMock)
       .compile();
 
+    await moduleRef.init();
+
     controller = moduleRef.get<ProductController>(ProductController);
   });
 
