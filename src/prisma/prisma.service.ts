@@ -1,5 +1,5 @@
 import { Injectable, OnModuleInit, OnModuleDestroy } from '@nestjs/common';
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, Prisma } from '@prisma/client';
 
 @Injectable()
 export class PrismaService
@@ -7,11 +7,14 @@ export class PrismaService
   implements OnModuleInit, OnModuleDestroy
 {
   constructor() {
+    const logLevels = process.env.PRISMA_LOG_LEVELS
+      ? (process.env.PRISMA_LOG_LEVELS.split(',')
+          .map((level) => level.trim())
+          .filter((level) => level) as Prisma.LogLevel[])
+      : [];
+
     super({
-      log:
-        process.env.NODE_ENV === 'test'
-          ? []
-          : ['query', 'info', 'warn', 'error'],
+      log: logLevels,
     });
   }
 
