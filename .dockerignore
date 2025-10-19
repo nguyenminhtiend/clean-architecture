@@ -1,0 +1,62 @@
+# Dependencies
+node_modules
+npm-debug.log
+pnpm-debug.log
+yarn-error.log
+
+# Build artifacts
+dist
+build
+*.tsbuildinfo
+
+# Tests
+test
+coverage
+.nyc_output
+*.spec.ts
+*.test.ts
+
+# Development files
+.git
+.gitignore
+.github
+.vscode
+.idea
+*.swp
+*.swo
+*~
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Logs
+logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Documentation
+*.md
+!README.md
+docs
+
+# CI/CD
+.gitlab-ci.yml
+.travis.yml
+.circleci
+Jenkinsfile
+
+# Docker
+Dockerfile
+.dockerignore
+docker-compose*.yml
+
+# Prisma
+prisma/migrations
+*.db
+*.db-journal
+

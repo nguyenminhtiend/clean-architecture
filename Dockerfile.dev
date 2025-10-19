@@ -1,0 +1,34 @@
+# syntax=docker/dockerfile:1.7-labs
+
+# ==================================
+# Development Stage
+# ==================================
+FROM node:22-alpine AS development
+
+# Install OpenSSL and other dependencies
+RUN apk add --no-cache openssl libc6-compat
+
+# Enable Corepack for pnpm
+RUN corepack enable && corepack prepare pnpm@10.0.0 --activate
+
+WORKDIR /app
+
+# Set development environment
+ENV NODE_ENV=development
+
+# Copy dependency files
+COPY package.json pnpm-lock.yaml ./
+
+# Install all dependencies with cache mount
+RUN --mount=type=cache,id=pnpm,target=/root/.local/share/pnpm/store \
+    pnpm install --frozen-lockfile
+
+# Copy source code
+COPY . .
+
+# Expose ports (app + debugger)
+EXPOSE 3000 9229
+
+# Start in development mode
+CMD ["pnpm", "start:dev"]
+

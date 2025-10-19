@@ -25,6 +25,9 @@ A NestJS boilerplate project built with Clean Architecture principles, CQRS patt
 - ✅ CI/CD with GitHub Actions
 - ✅ Test coverage reporting
 - ✅ Automated dependency updates
+- ✅ Docker multi-stage builds with pnpm 10
+- ✅ Kubernetes manifests with health probes
+- ✅ Health check endpoint (`/healthz`)
 
 ## Project Structure
 
@@ -111,6 +114,21 @@ pnpm run build
 pnpm run start:prod
 ```
 
+### Docker
+
+```bash
+# Production with Docker Compose
+docker-compose up -d
+
+# Development with hot reload
+docker-compose -f docker-compose.dev.yml up -d
+
+# Build Docker image
+docker build -t clean-architecture:latest .
+```
+
+See [DOCKER.md](./DOCKER.md) for detailed Docker documentation.
+
 ## API Documentation
 
 Once the application is running, access Swagger documentation at:
@@ -120,6 +138,10 @@ http://localhost:3000/api
 ```
 
 ## API Endpoints
+
+### Health
+
+- `GET /healthz` - Health check endpoint for K8s liveness/readiness probes
 
 ### Products
 
@@ -196,6 +218,35 @@ This project includes a complete CI/CD pipeline with GitHub Actions:
 - ✅ Build verification
 
 For CI/CD setup and configuration, see [CI-CD.md](./CI-CD.md).
+
+## Deployment
+
+### Docker Deployment
+
+See [DOCKER.md](./DOCKER.md) for complete Docker documentation including:
+
+- Multi-stage production builds
+- Development environment setup
+- Best practices and optimization
+
+### Kubernetes Deployment
+
+Kubernetes manifests are available in the `k8s/` directory:
+
+```bash
+# Deploy to Kubernetes
+kubectl apply -f k8s/postgres.yaml
+kubectl apply -f k8s/deployment.yaml
+kubectl apply -f k8s/ingress.yaml
+kubectl apply -f k8s/hpa.yaml
+```
+
+See [k8s/README.md](./k8s/README.md) for complete Kubernetes deployment guide including:
+
+- Deployment with liveness/readiness probes
+- Horizontal Pod Autoscaler (HPA)
+- Ingress configuration
+- Database setup with persistent storage
 
 ## Adding a New Module
 
