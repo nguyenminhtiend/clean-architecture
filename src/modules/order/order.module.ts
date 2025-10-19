@@ -6,12 +6,12 @@ import { PrismaService } from '../../prisma/prisma.service';
 import { ProductModule } from '../product/product.module';
 
 // Command Handlers
-import { CreateOrderHandler } from './commands';
+import { CreateOrderHandler, UpdateOrderHandler } from './commands';
 
 // Query Handlers
 import { GetOrderHandler, ListOrdersHandler } from './queries';
 
-const CommandHandlers = [CreateOrderHandler];
+const CommandHandlers = [CreateOrderHandler, UpdateOrderHandler];
 
 const QueryHandlers = [GetOrderHandler, ListOrdersHandler];
 

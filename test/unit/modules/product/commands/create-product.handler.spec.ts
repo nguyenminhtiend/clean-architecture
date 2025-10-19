@@ -4,30 +4,23 @@ import {
   CreateProductCommand,
 } from '../../../../../src/modules/product/commands/create-product.handler';
 import { IProductRepository } from '../../../../../src/modules/product/interfaces';
-import { ProductFactory } from '../../../../helpers';
+import {
+  ProductFactory,
+  createMockRepository,
+  createTestModuleBuilder,
+} from '../../../../helpers';
 
 describe('CreateProductHandler', () => {
   let handler: CreateProductHandler;
   let mockRepository: jest.Mocked<IProductRepository>;
 
   beforeEach(async () => {
-    mockRepository = {
-      create: jest.fn(),
-      findById: jest.fn(),
-      findAll: jest.fn(),
-      update: jest.fn(),
-      delete: jest.fn(),
-    };
+    mockRepository = createMockRepository() as jest.Mocked<IProductRepository>;
 
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [
-        CreateProductHandler,
-        {
-          provide: 'IProductRepository',
-          useValue: mockRepository,
-        },
-      ],
-    }).compile();
+    const module: TestingModule = await createTestModuleBuilder()
+      .withProvider(CreateProductHandler)
+      .withMockProvider('IProductRepository', mockRepository)
+      .build();
 
     handler = module.get<CreateProductHandler>(CreateProductHandler);
   });

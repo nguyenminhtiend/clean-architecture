@@ -17,6 +17,7 @@ const config: Config = {
     '!src/**/*.entity.ts',
     '!src/**/index.ts',
     '!src/main.ts',
+    '!src/app.module.ts',
   ],
   coverageDirectory: './coverage',
   testEnvironment: 'node',
@@ -25,10 +26,10 @@ const config: Config = {
   },
   coverageThreshold: {
     global: {
-      branches: 70,
-      functions: 70,
-      lines: 70,
-      statements: 70,
+      branches: 80,
+      functions: 95,
+      lines: 95,
+      statements: 95,
     },
   },
 };

@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Param, Query } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Patch,
+  Body,
+  Param,
+  Query,
+} from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import {
   ApiTags,
@@ -7,8 +15,8 @@ import {
   ApiParam,
   ApiQuery,
 } from '@nestjs/swagger';
-import { CreateOrderDto, OrderResponseDto } from './dtos';
-import { CreateOrderCommand } from './commands';
+import { CreateOrderDto, OrderResponseDto, UpdateOrderDto } from './dtos';
+import { CreateOrderCommand, UpdateOrderCommand } from './commands';
 import { GetOrderQuery, ListOrdersQuery } from './queries';
 
 @ApiTags('orders')
@@ -71,5 +79,25 @@ export class OrderController {
   async findOne(@Param('id') id: string): Promise<OrderResponseDto> {
     const query = new GetOrderQuery(id);
     return this.queryBus.execute(query);
+  }
+
+  @Patch(':id')
+  @ApiOperation({ summary: 'Update an order' })
+  @ApiParam({ name: 'id', description: 'Order ID' })
+  @ApiResponse({
+    status: 200,
+    description: 'Order updated successfully',
+    type: OrderResponseDto,
+  })
+  @ApiResponse({ status: 404, description: 'Order not found' })
+  async update(
+    @Param('id') id: string,
+    @Body() updateOrderDto: UpdateOrderDto,
+  ): Promise<OrderResponseDto> {
+    if (!updateOrderDto.status) {
+      throw new Error('Status is required');
+    }
+    const command = new UpdateOrderCommand(id, updateOrderDto.status);
+    return this.commandBus.execute(command);
   }
 }

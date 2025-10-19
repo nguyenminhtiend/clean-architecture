@@ -1,38 +1,31 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import request from 'supertest';
 import { App } from 'supertest/types';
-import { AppModule } from './../../src/app.module';
 import { PrismaService } from '../../src/prisma/prisma.service';
+import { createE2ETestApp, closeE2ETestApp, E2ETestContext } from '../helpers';
 
 describe('AppController (e2e)', () => {
   let app: INestApplication<App>;
   let prismaService: PrismaService;
 
   beforeAll(async () => {
-    const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [AppModule],
-    }).compile();
-
-    app = moduleFixture.createNestApplication();
-    await app.init();
-
-    prismaService = moduleFixture.get<PrismaService>(PrismaService);
+    const context: E2ETestContext = await createE2ETestApp();
+    app = context.app;
+    prismaService = context.prismaService;
   });
 
   afterAll(async () => {
-    await prismaService.$disconnect();
-    await app.close();
+    await closeE2ETestApp({ app, prismaService });
   });
 
-  it('/ (GET)', () => {
-    return request(app.getHttpServer())
+  it('/ (GET)', async () => {
+    await request(app.getHttpServer())
       .get('/')
       .expect(200)
       .expect('Hello World!');
   });
 
-  it('/health (GET) - should return health status', () => {
-    return request(app.getHttpServer()).get('/').expect(200);
+  it('/health (GET) - should return health status', async () => {
+    await request(app.getHttpServer()).get('/').expect(200);
   });
 });

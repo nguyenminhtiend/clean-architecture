@@ -6,7 +6,12 @@ import {
 } from '../../../../../src/modules/order/commands/create-order.handler';
 import { IOrderRepository } from '../../../../../src/modules/order/interfaces';
 import { IProductService } from '../../../../../src/shared';
-import { OrderFactory, ProductFactory } from '../../../../helpers';
+import {
+  OrderFactory,
+  ProductFactory,
+  createMockRepository,
+  createTestModuleBuilder,
+} from '../../../../helpers';
 
 describe('CreateOrderHandler', () => {
   let handler: CreateOrderHandler;
@@ -14,31 +19,17 @@ describe('CreateOrderHandler', () => {
   let mockProductService: jest.Mocked<IProductService>;
 
   beforeEach(async () => {
-    mockOrderRepository = {
-      create: jest.fn(),
-      findById: jest.fn(),
-      findAll: jest.fn(),
-      update: jest.fn(),
-      delete: jest.fn(),
-    };
-
+    mockOrderRepository =
+      createMockRepository() as jest.Mocked<IOrderRepository>;
     mockProductService = {
       getProductById: jest.fn(),
     };
 
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [
-        CreateOrderHandler,
-        {
-          provide: 'IOrderRepository',
-          useValue: mockOrderRepository,
-        },
-        {
-          provide: 'IProductService',
-          useValue: mockProductService,
-        },
-      ],
-    }).compile();
+    const module: TestingModule = await createTestModuleBuilder()
+      .withProvider(CreateOrderHandler)
+      .withMockProvider('IOrderRepository', mockOrderRepository)
+      .withMockProvider('IProductService', mockProductService)
+      .build();
 
     handler = module.get<CreateOrderHandler>(CreateOrderHandler);
   });

@@ -4,30 +4,23 @@ import {
   GetOrderQuery,
 } from '../../../../../src/modules/order/queries/get-order.handler';
 import { IOrderRepository } from '../../../../../src/modules/order/interfaces';
-import { OrderFactory } from '../../../../helpers';
+import {
+  OrderFactory,
+  createMockRepository,
+  createTestModuleBuilder,
+} from '../../../../helpers';
 
 describe('GetOrderHandler', () => {
   let handler: GetOrderHandler;
   let mockRepository: jest.Mocked<IOrderRepository>;
 
   beforeEach(async () => {
-    mockRepository = {
-      create: jest.fn(),
-      findById: jest.fn(),
-      findAll: jest.fn(),
-      update: jest.fn(),
-      delete: jest.fn(),
-    };
+    mockRepository = createMockRepository() as jest.Mocked<IOrderRepository>;
 
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [
-        GetOrderHandler,
-        {
-          provide: 'IOrderRepository',
-          useValue: mockRepository,
-        },
-      ],
-    }).compile();
+    const module: TestingModule = await createTestModuleBuilder()
+      .withProvider(GetOrderHandler)
+      .withMockProvider('IOrderRepository', mockRepository)
+      .build();
 
     handler = module.get<GetOrderHandler>(GetOrderHandler);
   });
