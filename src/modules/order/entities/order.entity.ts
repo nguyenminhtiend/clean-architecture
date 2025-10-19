@@ -89,9 +89,7 @@ export class Order {
   private validateStatus(status: string): void {
     const validStatuses = ['pending', 'completed', 'cancelled'];
     if (!validStatuses.includes(status)) {
-      throw new Error(
-        `Order status must be one of: ${validStatuses.join(', ')}`,
-      );
+      throw new Error(`Order status must be one of: ${validStatuses.join(', ')}`);
     }
   }
 }

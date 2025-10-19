@@ -6,9 +6,7 @@ import { OrderResponseDto } from '../dtos';
 import { OrderMapper } from '../mappers';
 
 @CommandHandler(UpdateOrderCommand)
-export class UpdateOrderHandler
-  implements ICommandHandler<UpdateOrderCommand, OrderResponseDto>
-{
+export class UpdateOrderHandler implements ICommandHandler<UpdateOrderCommand, OrderResponseDto> {
   constructor(
     @Inject('IOrderRepository')
     private readonly orderRepository: IOrderRepository,

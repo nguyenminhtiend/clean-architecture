@@ -15,7 +15,7 @@ function getPrismaClient(): PrismaClient {
  * Setup test database - Note: Database and migrations should be set up beforehand
  * Run: DATABASE_URL="postgresql://postgres:postgres@localhost:5432/clean_architecture_test?schema=public" npx prisma migrate deploy
  */
-export async function setupTestDatabase(): Promise<void> {
+export function setupTestDatabase(): void {
   // Just initialize the Prisma client - migrations should be done beforehand
   getPrismaClient();
 }

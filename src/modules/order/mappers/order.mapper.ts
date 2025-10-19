@@ -8,7 +8,7 @@ export class OrderMapper {
       customerName: order.customerName,
       totalAmount: order.totalAmount,
       status: order.status,
-      items: JSON.parse(order.items),
+      items: JSON.parse(order.items) as any[],
       createdAt: order.createdAt,
       updatedAt: order.updatedAt,
     };

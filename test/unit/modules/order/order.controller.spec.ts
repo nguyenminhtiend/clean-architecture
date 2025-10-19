@@ -1,14 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { OrderController } from '../../../../src/modules/order/order.controller';
-import {
-  CreateOrderCommand,
-  UpdateOrderCommand,
-} from '../../../../src/modules/order/commands';
-import {
-  GetOrderQuery,
-  ListOrdersQuery,
-} from '../../../../src/modules/order/queries';
+import { CreateOrderCommand, UpdateOrderCommand } from '../../../../src/modules/order/commands';
+import { GetOrderQuery, ListOrdersQuery } from '../../../../src/modules/order/queries';
 import { OrderFactory } from '../../../helpers';
 
 describe('OrderController', () => {
@@ -72,11 +66,8 @@ describe('OrderController', () => {
       const result = await controller.create(createDto);
 
       // Assert
-      expect(commandBus.execute).toHaveBeenCalledWith(
-        expect.any(CreateOrderCommand),
-      );
-      const executedCommand = commandBus.execute.mock
-        .calls[0][0] as CreateOrderCommand;
+      expect(commandBus.execute).toHaveBeenCalledWith(expect.any(CreateOrderCommand));
+      const executedCommand = commandBus.execute.mock.calls[0][0] as CreateOrderCommand;
       expect(executedCommand.customerName).toBe(createDto.customerName);
       expect(executedCommand.productId).toBe(createDto.productId);
       expect(executedCommand.quantity).toBe(createDto.quantity);
@@ -108,11 +99,8 @@ describe('OrderController', () => {
       const result = await controller.findAll();
 
       // Assert
-      expect(queryBus.execute).toHaveBeenCalledWith(
-        expect.any(ListOrdersQuery),
-      );
-      const executedQuery = queryBus.execute.mock
-        .calls[0][0] as ListOrdersQuery;
+      expect(queryBus.execute).toHaveBeenCalledWith(expect.any(ListOrdersQuery));
+      const executedQuery = queryBus.execute.mock.calls[0][0] as ListOrdersQuery;
       expect(executedQuery.skip).toBeUndefined();
       expect(executedQuery.take).toBeUndefined();
       expect(result).toHaveLength(2);
@@ -120,9 +108,7 @@ describe('OrderController', () => {
 
     it('should list orders with pagination', async () => {
       // Arrange
-      const mockOrders = [
-        OrderFactory.createOrder({ id: '1', customerName: 'Customer 1' }),
-      ];
+      const mockOrders = [OrderFactory.createOrder({ id: '1', customerName: 'Customer 1' })];
 
       queryBus.execute.mockResolvedValue(
         mockOrders.map((o) => ({
@@ -140,11 +126,8 @@ describe('OrderController', () => {
       const result = await controller.findAll(10, 5);
 
       // Assert
-      expect(queryBus.execute).toHaveBeenCalledWith(
-        expect.any(ListOrdersQuery),
-      );
-      const executedQuery = queryBus.execute.mock
-        .calls[0][0] as ListOrdersQuery;
+      expect(queryBus.execute).toHaveBeenCalledWith(expect.any(ListOrdersQuery));
+      const executedQuery = queryBus.execute.mock.calls[0][0] as ListOrdersQuery;
       expect(executedQuery.skip).toBe(10);
       expect(executedQuery.take).toBe(5);
       expect(result).toHaveLength(1);
@@ -205,11 +188,8 @@ describe('OrderController', () => {
       const result = await controller.update(orderId, updateDto);
 
       // Assert
-      expect(commandBus.execute).toHaveBeenCalledWith(
-        expect.any(UpdateOrderCommand),
-      );
-      const executedCommand = commandBus.execute.mock
-        .calls[0][0] as UpdateOrderCommand;
+      expect(commandBus.execute).toHaveBeenCalledWith(expect.any(UpdateOrderCommand));
+      const executedCommand = commandBus.execute.mock.calls[0][0] as UpdateOrderCommand;
       expect(executedCommand.id).toBe(orderId);
       expect(executedCommand.status).toBe(updateDto.status);
       expect(result.status).toBe('completed');

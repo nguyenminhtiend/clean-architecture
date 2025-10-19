@@ -42,9 +42,7 @@ describe('ProductRepository', () => {
       };
 
       const mockPrismaProduct = ProductFactory.createPrismaProduct(createData);
-      (prismaMock.product.create as jest.Mock).mockResolvedValue(
-        mockPrismaProduct,
-      );
+      (prismaMock.product.create as jest.Mock).mockResolvedValue(mockPrismaProduct);
 
       // Act
       const result = await repository.create(createData);
@@ -75,9 +73,7 @@ describe('ProductRepository', () => {
         ...createData,
         description: null,
       });
-      (prismaMock.product.create as jest.Mock).mockResolvedValue(
-        mockPrismaProduct,
-      );
+      (prismaMock.product.create as jest.Mock).mockResolvedValue(mockPrismaProduct);
 
       // Act
       const result = await repository.create(createData);
@@ -105,9 +101,7 @@ describe('ProductRepository', () => {
         ...createData,
         stock: 0,
       });
-      (prismaMock.product.create as jest.Mock).mockResolvedValue(
-        mockPrismaProduct,
-      );
+      (prismaMock.product.create as jest.Mock).mockResolvedValue(mockPrismaProduct);
 
       // Act
       const result = await repository.create(createData);
@@ -132,9 +126,7 @@ describe('ProductRepository', () => {
       const mockPrismaProduct = ProductFactory.createPrismaProduct({
         id: productId,
       });
-      (prismaMock.product.findUnique as jest.Mock).mockResolvedValue(
-        mockPrismaProduct,
-      );
+      (prismaMock.product.findUnique as jest.Mock).mockResolvedValue(mockPrismaProduct);
 
       // Act
       const result = await repository.findById(productId);
@@ -153,9 +145,7 @@ describe('ProductRepository', () => {
       (prismaMock.product.findUnique as jest.Mock).mockResolvedValue(null);
 
       // Act & Assert
-      await expect(repository.findById(productId)).rejects.toThrow(
-        EntityNotFoundException,
-      );
+      await expect(repository.findById(productId)).rejects.toThrow(EntityNotFoundException);
       await expect(repository.findById(productId)).rejects.toThrow(
         `Product with id ${productId} not found`,
       );
@@ -169,9 +159,7 @@ describe('ProductRepository', () => {
         ProductFactory.createPrismaProduct({ id: '1', name: 'Product 1' }),
         ProductFactory.createPrismaProduct({ id: '2', name: 'Product 2' }),
       ];
-      (prismaMock.product.findMany as jest.Mock).mockResolvedValue(
-        mockProducts,
-      );
+      (prismaMock.product.findMany as jest.Mock).mockResolvedValue(mockProducts);
 
       // Act
       const result = await repository.findAll();
@@ -189,12 +177,8 @@ describe('ProductRepository', () => {
 
     it('should find all products with pagination', async () => {
       // Arrange
-      const mockProducts = [
-        ProductFactory.createPrismaProduct({ id: '1', name: 'Product 1' }),
-      ];
-      (prismaMock.product.findMany as jest.Mock).mockResolvedValue(
-        mockProducts,
-      );
+      const mockProducts = [ProductFactory.createPrismaProduct({ id: '1', name: 'Product 1' })];
+      (prismaMock.product.findMany as jest.Mock).mockResolvedValue(mockProducts);
 
       // Act
       const result = await repository.findAll({ skip: 10, take: 5 });
@@ -239,12 +223,8 @@ describe('ProductRepository', () => {
         ...updateData,
       });
 
-      (prismaMock.product.findUnique as jest.Mock).mockResolvedValue(
-        existingProduct,
-      );
-      (prismaMock.product.update as jest.Mock).mockResolvedValue(
-        updatedProduct,
-      );
+      (prismaMock.product.findUnique as jest.Mock).mockResolvedValue(existingProduct);
+      (prismaMock.product.update as jest.Mock).mockResolvedValue(updatedProduct);
 
       // Act
       const result = await repository.update(productId, updateData);
@@ -274,12 +254,8 @@ describe('ProductRepository', () => {
         name: 'New Name',
       });
 
-      (prismaMock.product.findUnique as jest.Mock).mockResolvedValue(
-        existingProduct,
-      );
-      (prismaMock.product.update as jest.Mock).mockResolvedValue(
-        updatedProduct,
-      );
+      (prismaMock.product.findUnique as jest.Mock).mockResolvedValue(existingProduct);
+      (prismaMock.product.update as jest.Mock).mockResolvedValue(updatedProduct);
 
       // Act
       const result = await repository.update(productId, updateData);
@@ -313,9 +289,7 @@ describe('ProductRepository', () => {
       const productId = 'test-id';
       const mockProduct = ProductFactory.createPrismaProduct({ id: productId });
 
-      (prismaMock.product.findUnique as jest.Mock).mockResolvedValue(
-        mockProduct,
-      );
+      (prismaMock.product.findUnique as jest.Mock).mockResolvedValue(mockProduct);
       (prismaMock.product.delete as jest.Mock).mockResolvedValue(mockProduct);
 
       // Act
@@ -339,9 +313,7 @@ describe('ProductRepository', () => {
       (prismaMock.product.findUnique as jest.Mock).mockResolvedValue(null);
 
       // Act & Assert
-      await expect(repository.delete(productId)).rejects.toThrow(
-        EntityNotFoundException,
-      );
+      await expect(repository.delete(productId)).rejects.toThrow(EntityNotFoundException);
       expect(prismaMock.product.delete).not.toHaveBeenCalled();
     });
   });

@@ -1,14 +1,10 @@
-import { Test, TestingModule } from '@nestjs/testing';
+import { TestingModule } from '@nestjs/testing';
 import {
   UpdateProductHandler,
   UpdateProductCommand,
 } from '../../../../../src/modules/product/commands/update-product.handler';
 import { IProductRepository } from '../../../../../src/modules/product/interfaces';
-import {
-  ProductFactory,
-  createMockRepository,
-  createTestModuleBuilder,
-} from '../../../../helpers';
+import { ProductFactory, createMockRepository, createTestModuleBuilder } from '../../../../helpers';
 
 describe('UpdateProductHandler', () => {
   let handler: UpdateProductHandler;
@@ -103,13 +99,7 @@ describe('UpdateProductHandler', () => {
 
     it('should update only price field', async () => {
       // Arrange
-      const command = new UpdateProductCommand(
-        'test-id',
-        undefined,
-        undefined,
-        299.99,
-        undefined,
-      );
+      const command = new UpdateProductCommand('test-id', undefined, undefined, 299.99, undefined);
 
       const mockProduct = ProductFactory.createProduct({
         id: 'test-id',
@@ -130,13 +120,7 @@ describe('UpdateProductHandler', () => {
 
     it('should update only stock field', async () => {
       // Arrange
-      const command = new UpdateProductCommand(
-        'test-id',
-        undefined,
-        undefined,
-        undefined,
-        500,
-      );
+      const command = new UpdateProductCommand('test-id', undefined, undefined, undefined, 500);
 
       const mockProduct = ProductFactory.createProduct({
         id: 'test-id',
@@ -157,13 +141,7 @@ describe('UpdateProductHandler', () => {
 
     it('should update description to null', async () => {
       // Arrange
-      const command = new UpdateProductCommand(
-        'test-id',
-        undefined,
-        '',
-        undefined,
-        undefined,
-      );
+      const command = new UpdateProductCommand('test-id', undefined, '', undefined, undefined);
 
       const mockProduct = ProductFactory.createProduct({
         id: 'test-id',
@@ -219,9 +197,7 @@ describe('UpdateProductHandler', () => {
       mockRepository.update.mockRejectedValue(new Error('Product not found'));
 
       // Act & Assert
-      await expect(handler.execute(command)).rejects.toThrow(
-        'Product not found',
-      );
+      await expect(handler.execute(command)).rejects.toThrow('Product not found');
     });
   });
 });

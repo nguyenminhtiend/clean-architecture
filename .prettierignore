@@ -1,0 +1,24 @@
+# Dependencies
+node_modules
+pnpm-lock.yaml
+
+# Build outputs
+dist
+build
+coverage
+
+# Prisma generated files
+generated
+
+# Migrations
+prisma/migrations
+
+# Lock files
+*.lock
+
+# Logs
+*.log
+
+# Environment files
+.env*
+

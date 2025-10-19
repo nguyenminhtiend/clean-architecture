@@ -6,10 +6,7 @@ import {
   UpdateProductCommand,
   DeleteProductCommand,
 } from '../../../../src/modules/product/commands';
-import {
-  GetProductQuery,
-  ListProductsQuery,
-} from '../../../../src/modules/product/queries';
+import { GetProductQuery, ListProductsQuery } from '../../../../src/modules/product/queries';
 import { ProductFactory } from '../../../helpers';
 
 describe('ProductController', () => {
@@ -70,11 +67,8 @@ describe('ProductController', () => {
       const result = await controller.create(createDto);
 
       // Assert
-      expect(commandBus.execute).toHaveBeenCalledWith(
-        expect.any(CreateProductCommand),
-      );
-      const executedCommand = commandBus.execute.mock
-        .calls[0][0] as CreateProductCommand;
+      expect(commandBus.execute).toHaveBeenCalledWith(expect.any(CreateProductCommand));
+      const executedCommand = commandBus.execute.mock.calls[0][0] as CreateProductCommand;
       expect(executedCommand.name).toBe(createDto.name);
       expect(executedCommand.description).toBe(createDto.description);
       expect(executedCommand.price).toBe(createDto.price);
@@ -107,11 +101,8 @@ describe('ProductController', () => {
       const result = await controller.findAll();
 
       // Assert
-      expect(queryBus.execute).toHaveBeenCalledWith(
-        expect.any(ListProductsQuery),
-      );
-      const executedQuery = queryBus.execute.mock
-        .calls[0][0] as ListProductsQuery;
+      expect(queryBus.execute).toHaveBeenCalledWith(expect.any(ListProductsQuery));
+      const executedQuery = queryBus.execute.mock.calls[0][0] as ListProductsQuery;
       expect(executedQuery.skip).toBeUndefined();
       expect(executedQuery.take).toBeUndefined();
       expect(result).toHaveLength(2);
@@ -119,9 +110,7 @@ describe('ProductController', () => {
 
     it('should list products with pagination', async () => {
       // Arrange
-      const mockProducts = [
-        ProductFactory.createProduct({ id: '1', name: 'Product 1' }),
-      ];
+      const mockProducts = [ProductFactory.createProduct({ id: '1', name: 'Product 1' })];
 
       queryBus.execute.mockResolvedValue(
         mockProducts.map((p) => ({
@@ -139,11 +128,8 @@ describe('ProductController', () => {
       const result = await controller.findAll(10, 5);
 
       // Assert
-      expect(queryBus.execute).toHaveBeenCalledWith(
-        expect.any(ListProductsQuery),
-      );
-      const executedQuery = queryBus.execute.mock
-        .calls[0][0] as ListProductsQuery;
+      expect(queryBus.execute).toHaveBeenCalledWith(expect.any(ListProductsQuery));
+      const executedQuery = queryBus.execute.mock.calls[0][0] as ListProductsQuery;
       expect(executedQuery.skip).toBe(10);
       expect(executedQuery.take).toBe(5);
       expect(result).toHaveLength(1);
@@ -170,11 +156,8 @@ describe('ProductController', () => {
       const result = await controller.findOne(productId);
 
       // Assert
-      expect(queryBus.execute).toHaveBeenCalledWith(
-        expect.any(GetProductQuery),
-      );
-      const executedQuery = queryBus.execute.mock
-        .calls[0][0] as GetProductQuery;
+      expect(queryBus.execute).toHaveBeenCalledWith(expect.any(GetProductQuery));
+      const executedQuery = queryBus.execute.mock.calls[0][0] as GetProductQuery;
       expect(executedQuery.id).toBe(productId);
       expect(result.id).toBe(productId);
     });
@@ -210,11 +193,8 @@ describe('ProductController', () => {
       const result = await controller.update(productId, updateDto);
 
       // Assert
-      expect(commandBus.execute).toHaveBeenCalledWith(
-        expect.any(UpdateProductCommand),
-      );
-      const executedCommand = commandBus.execute.mock
-        .calls[0][0] as UpdateProductCommand;
+      expect(commandBus.execute).toHaveBeenCalledWith(expect.any(UpdateProductCommand));
+      const executedCommand = commandBus.execute.mock.calls[0][0] as UpdateProductCommand;
       expect(executedCommand.id).toBe(productId);
       expect(executedCommand.name).toBe(updateDto.name);
       expect(executedCommand.description).toBe(updateDto.description);
@@ -234,11 +214,8 @@ describe('ProductController', () => {
       await controller.remove(productId);
 
       // Assert
-      expect(commandBus.execute).toHaveBeenCalledWith(
-        expect.any(DeleteProductCommand),
-      );
-      const executedCommand = commandBus.execute.mock
-        .calls[0][0] as DeleteProductCommand;
+      expect(commandBus.execute).toHaveBeenCalledWith(expect.any(DeleteProductCommand));
+      const executedCommand = commandBus.execute.mock.calls[0][0] as DeleteProductCommand;
       expect(executedCommand.id).toBe(productId);
     });
   });

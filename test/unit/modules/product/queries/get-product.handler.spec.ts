@@ -1,14 +1,10 @@
-import { Test, TestingModule } from '@nestjs/testing';
+import { TestingModule } from '@nestjs/testing';
 import {
   GetProductHandler,
   GetProductQuery,
 } from '../../../../../src/modules/product/queries/get-product.handler';
 import { IProductRepository } from '../../../../../src/modules/product/interfaces';
-import {
-  ProductFactory,
-  createMockRepository,
-  createTestModuleBuilder,
-} from '../../../../helpers';
+import { ProductFactory, createMockRepository, createTestModuleBuilder } from '../../../../helpers';
 
 describe('GetProductHandler', () => {
   let handler: GetProductHandler;

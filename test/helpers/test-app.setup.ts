@@ -33,9 +33,7 @@ export interface TestAppOptions {
 /**
  * Creates and initializes a NestJS test context for e2e or integration testing
  */
-export async function createTestApp(
-  options: TestAppOptions = {},
-): Promise<TestAppContext> {
+export async function createTestApp(options: TestAppOptions = {}): Promise<TestAppContext> {
   const {
     moduleToImport = AppModule,
     createApp = true,

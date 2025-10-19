@@ -1,27 +1,11 @@
 import { OrderModule } from '../../../../../src/modules/order/order.module';
 import { PrismaService } from '../../../../../src/prisma/prisma.service';
-import {
-  CreateOrderHandler,
-  UpdateOrderHandler,
-} from '../../../../../src/modules/order/commands';
-import {
-  GetOrderHandler,
-  ListOrdersHandler,
-} from '../../../../../src/modules/order/queries';
-import {
-  CreateOrderCommand,
-  UpdateOrderCommand,
-} from '../../../../../src/modules/order/commands';
-import {
-  GetOrderQuery,
-  ListOrdersQuery,
-} from '../../../../../src/modules/order/queries';
+import { CreateOrderHandler, UpdateOrderHandler } from '../../../../../src/modules/order/commands';
+import { GetOrderHandler, ListOrdersHandler } from '../../../../../src/modules/order/queries';
+import { CreateOrderCommand, UpdateOrderCommand } from '../../../../../src/modules/order/commands';
+import { GetOrderQuery, ListOrdersQuery } from '../../../../../src/modules/order/queries';
 import { clearDatabase } from '../../../../helpers/test-db-setup';
-import {
-  createTestApp,
-  closeTestApp,
-  TestAppContext,
-} from '../../../../helpers/test-app.setup';
+import { createTestApp, closeTestApp, TestAppContext } from '../../../../helpers/test-app.setup';
 
 describe('Order Handlers Integration (Real DB)', () => {
   let context: TestAppContext;

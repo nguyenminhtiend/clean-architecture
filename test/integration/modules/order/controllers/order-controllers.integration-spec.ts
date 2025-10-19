@@ -3,11 +3,7 @@ import request from 'supertest';
 import { OrderModule } from '../../../../../src/modules/order/order.module';
 import { PrismaService } from '../../../../../src/prisma/prisma.service';
 import { clearDatabase } from '../../../../helpers/test-db-setup';
-import {
-  createTestApp,
-  closeTestApp,
-  TestAppContext,
-} from '../../../../helpers/test-app.setup';
+import { createTestApp, closeTestApp, TestAppContext } from '../../../../helpers/test-app.setup';
 
 describe('Order Controllers Integration (HTTP + Validation)', () => {
   let app: INestApplication;
@@ -102,10 +98,7 @@ describe('Order Controllers Integration (HTTP + Validation)', () => {
         .expect(400);
 
       // Missing required fields
-      await request(app.getHttpServer())
-        .post('/orders')
-        .send({ customerName: 'John' })
-        .expect(400);
+      await request(app.getHttpServer()).post('/orders').send({ customerName: 'John' }).expect(400);
 
       // Non-existent product
       await request(app.getHttpServer())
@@ -136,9 +129,7 @@ describe('Order Controllers Integration (HTTP + Validation)', () => {
 
     it('should handle skip and take query params', async () => {
       // Act
-      const response = await request(app.getHttpServer())
-        .get('/orders?skip=3&take=4')
-        .expect(200);
+      const response = await request(app.getHttpServer()).get('/orders?skip=3&take=4').expect(200);
 
       // Assert
       expect(response.body).toHaveLength(4);
@@ -146,9 +137,7 @@ describe('Order Controllers Integration (HTTP + Validation)', () => {
 
     it('should work without pagination params', async () => {
       // Act
-      const response = await request(app.getHttpServer())
-        .get('/orders')
-        .expect(200);
+      const response = await request(app.getHttpServer()).get('/orders').expect(200);
 
       // Assert
       expect(response.body.length).toBeGreaterThan(0);
@@ -167,9 +156,7 @@ describe('Order Controllers Integration (HTTP + Validation)', () => {
         },
       });
 
-      const response = await request(app.getHttpServer())
-        .get(`/orders/${created.id}`)
-        .expect(200);
+      const response = await request(app.getHttpServer()).get(`/orders/${created.id}`).expect(200);
 
       expect(response.body.id).toBe(created.id);
 
@@ -223,10 +210,7 @@ describe('Order Controllers Integration (HTTP + Validation)', () => {
         .expect(400);
 
       // Empty status
-      await request(app.getHttpServer())
-        .patch(`/orders/${order1.id}`)
-        .send({})
-        .expect(400);
+      await request(app.getHttpServer()).patch(`/orders/${order1.id}`).send({}).expect(400);
     });
   });
 });

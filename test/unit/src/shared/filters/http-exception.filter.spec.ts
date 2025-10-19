@@ -31,10 +31,7 @@ describe('HttpExceptionFilter', () => {
 
   it('should catch HttpException with string message', () => {
     // Arrange
-    const exception = new HttpException(
-      'Test error message',
-      HttpStatus.BAD_REQUEST,
-    );
+    const exception = new HttpException('Test error message', HttpStatus.BAD_REQUEST);
 
     // Act
     filter.catch(exception, mockArgumentsHost);
@@ -54,10 +51,7 @@ describe('HttpExceptionFilter', () => {
       message: 'Validation failed',
       errors: ['name is required', 'price must be positive'],
     };
-    const exception = new HttpException(
-      exceptionResponse,
-      HttpStatus.BAD_REQUEST,
-    );
+    const exception = new HttpException(exceptionResponse, HttpStatus.BAD_REQUEST);
 
     // Act
     filter.catch(exception, mockArgumentsHost);
@@ -90,18 +84,13 @@ describe('HttpExceptionFilter', () => {
 
   it('should catch HttpException with 500 status', () => {
     // Arrange
-    const exception = new HttpException(
-      'Internal Server Error',
-      HttpStatus.INTERNAL_SERVER_ERROR,
-    );
+    const exception = new HttpException('Internal Server Error', HttpStatus.INTERNAL_SERVER_ERROR);
 
     // Act
     filter.catch(exception, mockArgumentsHost);
 
     // Assert
-    expect(mockResponse.status).toHaveBeenCalledWith(
-      HttpStatus.INTERNAL_SERVER_ERROR,
-    );
+    expect(mockResponse.status).toHaveBeenCalledWith(HttpStatus.INTERNAL_SERVER_ERROR);
     expect(mockResponse.json).toHaveBeenCalledWith({
       statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
       timestamp: expect.any(String),
@@ -158,9 +147,7 @@ describe('AllExceptionsFilter', () => {
     filter.catch(exception, mockArgumentsHost);
 
     // Assert
-    expect(mockResponse.status).toHaveBeenCalledWith(
-      HttpStatus.INTERNAL_SERVER_ERROR,
-    );
+    expect(mockResponse.status).toHaveBeenCalledWith(HttpStatus.INTERNAL_SERVER_ERROR);
     expect(mockResponse.json).toHaveBeenCalledWith({
       statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
       timestamp: expect.any(String),
@@ -176,9 +163,7 @@ describe('AllExceptionsFilter', () => {
     filter.catch(exception, mockArgumentsHost);
 
     // Assert
-    expect(mockResponse.status).toHaveBeenCalledWith(
-      HttpStatus.INTERNAL_SERVER_ERROR,
-    );
+    expect(mockResponse.status).toHaveBeenCalledWith(HttpStatus.INTERNAL_SERVER_ERROR);
     expect(mockResponse.json).toHaveBeenCalledWith({
       statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
       timestamp: expect.any(String),
@@ -194,9 +179,7 @@ describe('AllExceptionsFilter', () => {
     filter.catch(exception, mockArgumentsHost);
 
     // Assert
-    expect(mockResponse.status).toHaveBeenCalledWith(
-      HttpStatus.INTERNAL_SERVER_ERROR,
-    );
+    expect(mockResponse.status).toHaveBeenCalledWith(HttpStatus.INTERNAL_SERVER_ERROR);
     expect(mockResponse.json).toHaveBeenCalledWith({
       statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
       timestamp: expect.any(String),
@@ -212,9 +195,7 @@ describe('AllExceptionsFilter', () => {
     filter.catch(exception, mockArgumentsHost);
 
     // Assert
-    expect(mockResponse.status).toHaveBeenCalledWith(
-      HttpStatus.INTERNAL_SERVER_ERROR,
-    );
+    expect(mockResponse.status).toHaveBeenCalledWith(HttpStatus.INTERNAL_SERVER_ERROR);
     expect(mockResponse.json).toHaveBeenCalledWith({
       statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
       timestamp: expect.any(String),

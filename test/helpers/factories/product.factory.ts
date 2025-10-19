@@ -15,9 +15,7 @@ export class ProductFactory {
     });
   }
 
-  static createProductDto(
-    overrides?: Partial<ProductResponseDto>,
-  ): ProductResponseDto {
+  static createProductDto(overrides?: Partial<ProductResponseDto>): ProductResponseDto {
     return {
       id: 'test-product-id',
       name: 'Test Product',

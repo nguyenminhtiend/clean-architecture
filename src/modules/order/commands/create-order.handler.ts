@@ -15,9 +15,7 @@ export class CreateOrderCommand {
 }
 
 @CommandHandler(CreateOrderCommand)
-export class CreateOrderHandler
-  implements ICommandHandler<CreateOrderCommand, OrderResponseDto>
-{
+export class CreateOrderHandler implements ICommandHandler<CreateOrderCommand, OrderResponseDto> {
   constructor(
     @Inject('IOrderRepository')
     private readonly orderRepository: IOrderRepository,
@@ -29,8 +27,7 @@ export class CreateOrderHandler
     const { customerName, productId, quantity } = command;
 
     // Get product info using shared interface
-    const product: ProductDto =
-      await this.productService.getProductById(productId);
+    const product: ProductDto = await this.productService.getProductById(productId);
 
     if (!product) {
       throw new NotFoundException(`Product with ID ${productId} not found`);

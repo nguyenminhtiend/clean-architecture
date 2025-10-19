@@ -1,14 +1,10 @@
-import { Test, TestingModule } from '@nestjs/testing';
+import { TestingModule } from '@nestjs/testing';
 import {
   ListProductsHandler,
   ListProductsQuery,
 } from '../../../../../src/modules/product/queries/list-products.handler';
 import { IProductRepository } from '../../../../../src/modules/product/interfaces';
-import {
-  ProductFactory,
-  createMockRepository,
-  createTestModuleBuilder,
-} from '../../../../helpers';
+import { ProductFactory, createMockRepository, createTestModuleBuilder } from '../../../../helpers';
 
 describe('ListProductsHandler', () => {
   let handler: ListProductsHandler;
@@ -96,9 +92,7 @@ describe('ListProductsHandler', () => {
       // Arrange
       const query = new ListProductsQuery(20);
 
-      const mockProducts = [
-        ProductFactory.createProduct({ id: '21', name: 'Product 21' }),
-      ];
+      const mockProducts = [ProductFactory.createProduct({ id: '21', name: 'Product 21' })];
 
       mockRepository.findAll.mockResolvedValue(mockProducts);
 

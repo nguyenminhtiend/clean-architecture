@@ -9,9 +9,7 @@ export class GetOrderQuery {
 }
 
 @QueryHandler(GetOrderQuery)
-export class GetOrderHandler
-  implements IQueryHandler<GetOrderQuery, OrderResponseDto>
-{
+export class GetOrderHandler implements IQueryHandler<GetOrderQuery, OrderResponseDto> {
   constructor(
     @Inject('IOrderRepository')
     private readonly orderRepository: IOrderRepository,

@@ -22,9 +22,7 @@ export class OrderFactory {
     });
   }
 
-  static createOrderDto(
-    overrides?: Partial<OrderResponseDto>,
-  ): OrderResponseDto {
+  static createOrderDto(overrides?: Partial<OrderResponseDto>): OrderResponseDto {
     return {
       id: 'test-order-id',
       customerName: 'John Doe',

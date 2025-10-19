@@ -9,9 +9,7 @@ export class ProductService implements IProductService {
   constructor(private readonly queryBus: QueryBus) {}
 
   async getProductById(id: string): Promise<ProductDto> {
-    const product: ProductResponseDto = await this.queryBus.execute(
-      new GetProductQuery(id),
-    );
+    const product: ProductResponseDto = await this.queryBus.execute(new GetProductQuery(id));
 
     return {
       id: product.id,

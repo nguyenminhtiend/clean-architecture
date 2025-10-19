@@ -1,14 +1,10 @@
-import { Test, TestingModule } from '@nestjs/testing';
+import { TestingModule } from '@nestjs/testing';
 import {
   CreateProductHandler,
   CreateProductCommand,
 } from '../../../../../src/modules/product/commands/create-product.handler';
 import { IProductRepository } from '../../../../../src/modules/product/interfaces';
-import {
-  ProductFactory,
-  createMockRepository,
-  createTestModuleBuilder,
-} from '../../../../helpers';
+import { ProductFactory, createMockRepository, createTestModuleBuilder } from '../../../../helpers';
 
 describe('CreateProductHandler', () => {
   let handler: CreateProductHandler;
@@ -32,12 +28,7 @@ describe('CreateProductHandler', () => {
   describe('execute', () => {
     it('should create a product successfully', async () => {
       // Arrange
-      const command = new CreateProductCommand(
-        'Test Product',
-        'Test Description',
-        100,
-        10,
-      );
+      const command = new CreateProductCommand('Test Product', 'Test Description', 100, 10);
 
       const mockProduct = ProductFactory.createProduct({
         name: command.name,

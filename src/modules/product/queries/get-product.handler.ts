@@ -9,9 +9,7 @@ export class GetProductQuery {
 }
 
 @QueryHandler(GetProductQuery)
-export class GetProductHandler
-  implements IQueryHandler<GetProductQuery, ProductResponseDto>
-{
+export class GetProductHandler implements IQueryHandler<GetProductQuery, ProductResponseDto> {
   constructor(
     @Inject('IProductRepository')
     private readonly productRepository: IProductRepository,

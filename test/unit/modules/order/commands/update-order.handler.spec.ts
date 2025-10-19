@@ -3,11 +3,7 @@ import { UpdateOrderHandler } from '../../../../../src/modules/order/commands/up
 import { UpdateOrderCommand } from '../../../../../src/modules/order/commands/update-order.command';
 import { IOrderRepository } from '../../../../../src/modules/order/interfaces';
 import { NotFoundException } from '@nestjs/common';
-import {
-  OrderFactory,
-  createMockRepository,
-  createTestModuleBuilder,
-} from '../../../../helpers';
+import { OrderFactory, createMockRepository, createTestModuleBuilder } from '../../../../helpers';
 
 describe('UpdateOrderHandler', () => {
   let handler: UpdateOrderHandler;
@@ -85,7 +81,7 @@ describe('UpdateOrderHandler', () => {
       // Arrange
       const command = new UpdateOrderCommand('non-existent-id', 'completed');
 
-      mockRepository.findById.mockResolvedValue(null);
+      mockRepository.findById.mockResolvedValue(null as any);
 
       // Act & Assert
       await expect(handler.execute(command)).rejects.toThrow(NotFoundException);

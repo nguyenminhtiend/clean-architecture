@@ -89,9 +89,7 @@ describe('OrderRepository', () => {
       // Arrange
       const orderId = 'test-order-id';
       const mockPrismaOrder = OrderFactory.createPrismaOrder({ id: orderId });
-      (prismaMock.order.findUnique as jest.Mock).mockResolvedValue(
-        mockPrismaOrder,
-      );
+      (prismaMock.order.findUnique as jest.Mock).mockResolvedValue(mockPrismaOrder);
 
       // Act
       const result = await repository.findById(orderId);
@@ -109,9 +107,7 @@ describe('OrderRepository', () => {
       (prismaMock.order.findUnique as jest.Mock).mockResolvedValue(null);
 
       // Act & Assert
-      await expect(repository.findById(orderId)).rejects.toThrow(
-        EntityNotFoundException,
-      );
+      await expect(repository.findById(orderId)).rejects.toThrow(EntityNotFoundException);
     });
   });
 
@@ -143,7 +139,7 @@ describe('OrderRepository', () => {
       (prismaMock.order.findMany as jest.Mock).mockResolvedValue(mockOrders);
 
       // Act
-      const result = await repository.findAll(params);
+      await repository.findAll(params);
 
       // Assert
       expect(prismaMock.order.findMany).toHaveBeenCalledWith({
@@ -166,9 +162,7 @@ describe('OrderRepository', () => {
         ...updateData,
       });
 
-      (prismaMock.order.findUnique as jest.Mock).mockResolvedValue(
-        existingOrder,
-      );
+      (prismaMock.order.findUnique as jest.Mock).mockResolvedValue(existingOrder);
       (prismaMock.order.update as jest.Mock).mockResolvedValue(updatedOrder);
 
       // Act
@@ -190,9 +184,7 @@ describe('OrderRepository', () => {
       (prismaMock.order.findUnique as jest.Mock).mockResolvedValue(null);
 
       // Act & Assert
-      await expect(repository.update(orderId, updateData)).rejects.toThrow(
-        EntityNotFoundException,
-      );
+      await expect(repository.update(orderId, updateData)).rejects.toThrow(EntityNotFoundException);
       expect(prismaMock.order.update).not.toHaveBeenCalled();
     });
   });
@@ -223,9 +215,7 @@ describe('OrderRepository', () => {
       (prismaMock.order.findUnique as jest.Mock).mockResolvedValue(null);
 
       // Act & Assert
-      await expect(repository.delete(orderId)).rejects.toThrow(
-        EntityNotFoundException,
-      );
+      await expect(repository.delete(orderId)).rejects.toThrow(EntityNotFoundException);
       expect(prismaMock.order.delete).not.toHaveBeenCalled();
     });
   });

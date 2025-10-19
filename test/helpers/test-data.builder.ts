@@ -62,10 +62,10 @@ export class OrderDataBuilder {
   }
 }
 
-export function createProductData(overrides?: any): any {
+export function createProductData(): any {
   return new ProductDataBuilder().build();
 }
 
-export function createOrderData(overrides?: any): any {
+export function createOrderData(): any {
   return new OrderDataBuilder().build();
 }

@@ -1,20 +1,6 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Patch,
-  Body,
-  Param,
-  Query,
-} from '@nestjs/common';
+import { Controller, Get, Post, Patch, Body, Param, Query } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
-import {
-  ApiTags,
-  ApiOperation,
-  ApiResponse,
-  ApiParam,
-  ApiQuery,
-} from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiResponse, ApiParam, ApiQuery } from '@nestjs/swagger';
 import { CreateOrderDto, OrderResponseDto, UpdateOrderDto } from './dtos';
 import { CreateOrderCommand, UpdateOrderCommand } from './commands';
 import { GetOrderQuery, ListOrdersQuery } from './queries';
@@ -34,9 +20,7 @@ export class OrderController {
     description: 'Order created successfully',
     type: OrderResponseDto,
   })
-  async create(
-    @Body() createOrderDto: CreateOrderDto,
-  ): Promise<OrderResponseDto> {
+  async create(@Body() createOrderDto: CreateOrderDto): Promise<OrderResponseDto> {
     const command = new CreateOrderCommand(
       createOrderDto.customerName,
       createOrderDto.productId,

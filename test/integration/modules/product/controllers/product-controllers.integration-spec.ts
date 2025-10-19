@@ -3,11 +3,7 @@ import request from 'supertest';
 import { ProductModule } from '../../../../../src/modules/product/product.module';
 import { PrismaService } from '../../../../../src/prisma/prisma.service';
 import { clearDatabase } from '../../../../helpers/test-db-setup';
-import {
-  createTestApp,
-  closeTestApp,
-  TestAppContext,
-} from '../../../../helpers/test-app.setup';
+import { createTestApp, closeTestApp, TestAppContext } from '../../../../helpers/test-app.setup';
 
 describe('Product Controllers Integration (HTTP + Validation)', () => {
   let app: INestApplication;
@@ -113,10 +109,7 @@ describe('Product Controllers Integration (HTTP + Validation)', () => {
         .send({ description: 'Only description' })
         .expect(400);
       expect(missingFieldsRes.body.message).toEqual(
-        expect.arrayContaining([
-          expect.stringContaining('name'),
-          expect.stringContaining('price'),
-        ]),
+        expect.arrayContaining([expect.stringContaining('name'), expect.stringContaining('price')]),
       );
     });
   });
@@ -153,9 +146,7 @@ describe('Product Controllers Integration (HTTP + Validation)', () => {
 
     it('should work without pagination params', async () => {
       // Act
-      const response = await request(app.getHttpServer())
-        .get('/products')
-        .expect(200);
+      const response = await request(app.getHttpServer()).get('/products').expect(200);
 
       // Assert: Should return all products
       expect(response.body.length).toBeGreaterThan(0);

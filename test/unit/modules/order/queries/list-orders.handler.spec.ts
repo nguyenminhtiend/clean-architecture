@@ -1,14 +1,10 @@
-import { Test, TestingModule } from '@nestjs/testing';
+import { TestingModule } from '@nestjs/testing';
 import {
   ListOrdersHandler,
   ListOrdersQuery,
 } from '../../../../../src/modules/order/queries/list-orders.handler';
 import { IOrderRepository } from '../../../../../src/modules/order/interfaces';
-import {
-  OrderFactory,
-  createMockRepository,
-  createTestModuleBuilder,
-} from '../../../../helpers';
+import { OrderFactory, createMockRepository, createTestModuleBuilder } from '../../../../helpers';
 
 describe('ListOrdersHandler', () => {
   let handler: ListOrdersHandler;
@@ -35,9 +31,9 @@ describe('ListOrdersHandler', () => {
       const query = new ListOrdersQuery();
 
       const mockOrders = [
-        OrderFactory.createOrder({ id: '1', customerId: 'customer-1' }),
-        OrderFactory.createOrder({ id: '2', customerId: 'customer-2' }),
-        OrderFactory.createOrder({ id: '3', customerId: 'customer-3' }),
+        OrderFactory.createOrder({ id: '1', customerName: 'customer-1' }),
+        OrderFactory.createOrder({ id: '2', customerName: 'customer-2' }),
+        OrderFactory.createOrder({ id: '3', customerName: 'customer-3' }),
       ];
 
       mockRepository.findAll.mockResolvedValue(mockOrders);
@@ -61,8 +57,8 @@ describe('ListOrdersHandler', () => {
       const query = new ListOrdersQuery(10, 5);
 
       const mockOrders = [
-        OrderFactory.createOrder({ id: '11', customerId: 'customer-11' }),
-        OrderFactory.createOrder({ id: '12', customerId: 'customer-12' }),
+        OrderFactory.createOrder({ id: '11', customerName: 'customer-11' }),
+        OrderFactory.createOrder({ id: '12', customerName: 'customer-12' }),
       ];
 
       mockRepository.findAll.mockResolvedValue(mockOrders);
@@ -96,9 +92,7 @@ describe('ListOrdersHandler', () => {
       // Arrange
       const query = new ListOrdersQuery(20);
 
-      const mockOrders = [
-        OrderFactory.createOrder({ id: '21', customerId: 'customer-21' }),
-      ];
+      const mockOrders = [OrderFactory.createOrder({ id: '21', customerName: 'customer-21' })];
 
       mockRepository.findAll.mockResolvedValue(mockOrders);
 
@@ -120,7 +114,7 @@ describe('ListOrdersHandler', () => {
       const mockOrders = Array.from({ length: 10 }, (_, i) =>
         OrderFactory.createOrder({
           id: `${i + 1}`,
-          customerId: `customer-${i + 1}`,
+          customerName: `customer-${i + 1}`,
         }),
       );
 

@@ -9,8 +9,6 @@ export const createMockPrismaService = (): DeepMockProxy<PrismaClient> => {
   return mockDeep<PrismaClient>();
 };
 
-export const resetMockPrismaService = (
-  prisma: DeepMockProxy<PrismaClient>,
-): void => {
+export const resetMockPrismaService = (prisma: DeepMockProxy<PrismaClient>): void => {
   mockReset(prisma);
 };

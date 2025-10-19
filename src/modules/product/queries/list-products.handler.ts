@@ -12,9 +12,7 @@ export class ListProductsQuery {
 }
 
 @QueryHandler(ListProductsQuery)
-export class ListProductsHandler
-  implements IQueryHandler<ListProductsQuery, ProductResponseDto[]>
-{
+export class ListProductsHandler implements IQueryHandler<ListProductsQuery, ProductResponseDto[]> {
   constructor(
     @Inject('IProductRepository')
     private readonly productRepository: IProductRepository,

@@ -1,14 +1,10 @@
-import { Test, TestingModule } from '@nestjs/testing';
+import { TestingModule } from '@nestjs/testing';
 import {
   GetOrderHandler,
   GetOrderQuery,
 } from '../../../../../src/modules/order/queries/get-order.handler';
 import { IOrderRepository } from '../../../../../src/modules/order/interfaces';
-import {
-  OrderFactory,
-  createMockRepository,
-  createTestModuleBuilder,
-} from '../../../../helpers';
+import { OrderFactory, createMockRepository, createTestModuleBuilder } from '../../../../helpers';
 
 describe('GetOrderHandler', () => {
   let handler: GetOrderHandler;

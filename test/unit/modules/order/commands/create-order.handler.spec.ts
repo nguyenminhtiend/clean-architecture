@@ -19,8 +19,7 @@ describe('CreateOrderHandler', () => {
   let mockProductService: jest.Mocked<IProductService>;
 
   beforeEach(async () => {
-    mockOrderRepository =
-      createMockRepository() as jest.Mocked<IOrderRepository>;
+    mockOrderRepository = createMockRepository() as jest.Mocked<IOrderRepository>;
     mockProductService = {
       getProductById: jest.fn(),
     };
@@ -62,9 +61,7 @@ describe('CreateOrderHandler', () => {
       const result = await handler.execute(command);
 
       // Assert
-      expect(mockProductService.getProductById).toHaveBeenCalledWith(
-        command.productId,
-      );
+      expect(mockProductService.getProductById).toHaveBeenCalledWith(command.productId);
       expect(mockOrderRepository.create).toHaveBeenCalledWith({
         customerName: command.customerName,
         totalAmount: 500,
@@ -84,19 +81,13 @@ describe('CreateOrderHandler', () => {
 
     it('should throw NotFoundException when product does not exist', async () => {
       // Arrange
-      const command = new CreateOrderCommand(
-        'John Doe',
-        'non-existent-product-id',
-        5,
-      );
+      const command = new CreateOrderCommand('John Doe', 'non-existent-product-id', 5);
 
       mockProductService.getProductById.mockResolvedValue(null as any);
 
       // Act & Assert
       await expect(handler.execute(command)).rejects.toThrow(NotFoundException);
-      expect(mockProductService.getProductById).toHaveBeenCalledWith(
-        command.productId,
-      );
+      expect(mockProductService.getProductById).toHaveBeenCalledWith(command.productId);
       expect(mockOrderRepository.create).not.toHaveBeenCalled();
     });
 

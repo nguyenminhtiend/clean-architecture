@@ -11,19 +11,9 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
-import {
-  ApiTags,
-  ApiOperation,
-  ApiResponse,
-  ApiParam,
-  ApiQuery,
-} from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiResponse, ApiParam, ApiQuery } from '@nestjs/swagger';
 import { CreateProductDto, UpdateProductDto, ProductResponseDto } from './dtos';
-import {
-  CreateProductCommand,
-  UpdateProductCommand,
-  DeleteProductCommand,
-} from './commands';
+import { CreateProductCommand, UpdateProductCommand, DeleteProductCommand } from './commands';
 import { GetProductQuery, ListProductsQuery } from './queries';
 
 @ApiTags('products')
@@ -41,9 +31,7 @@ export class ProductController {
     description: 'Product created successfully',
     type: ProductResponseDto,
   })
-  async create(
-    @Body() createProductDto: CreateProductDto,
-  ): Promise<ProductResponseDto> {
+  async create(@Body() createProductDto: CreateProductDto): Promise<ProductResponseDto> {
     const command = new CreateProductCommand(
       createProductDto.name,
       createProductDto.description,

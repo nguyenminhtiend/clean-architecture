@@ -28,9 +28,7 @@ describe('PrismaService', () => {
 
   it('should call $connect on module init', async () => {
     // Arrange
-    const connectSpy = jest
-      .spyOn(service, '$connect')
-      .mockResolvedValue(undefined);
+    const connectSpy = jest.spyOn(service, '$connect').mockResolvedValue(undefined);
 
     // Act
     await service.onModuleInit();
@@ -41,9 +39,7 @@ describe('PrismaService', () => {
 
   it('should call $disconnect on module destroy', async () => {
     // Arrange
-    const disconnectSpy = jest
-      .spyOn(service, '$disconnect')
-      .mockResolvedValue(undefined);
+    const disconnectSpy = jest.spyOn(service, '$disconnect').mockResolvedValue(undefined);
 
     // Act
     await service.onModuleDestroy();

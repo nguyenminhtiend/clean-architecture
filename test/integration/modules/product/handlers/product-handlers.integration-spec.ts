@@ -5,25 +5,15 @@ import {
   UpdateProductHandler,
   DeleteProductHandler,
 } from '../../../../../src/modules/product/commands';
-import {
-  GetProductHandler,
-  ListProductsHandler,
-} from '../../../../../src/modules/product/queries';
+import { GetProductHandler, ListProductsHandler } from '../../../../../src/modules/product/queries';
 import {
   CreateProductCommand,
   UpdateProductCommand,
   DeleteProductCommand,
 } from '../../../../../src/modules/product/commands';
-import {
-  GetProductQuery,
-  ListProductsQuery,
-} from '../../../../../src/modules/product/queries';
+import { GetProductQuery, ListProductsQuery } from '../../../../../src/modules/product/queries';
 import { clearDatabase } from '../../../../helpers/test-db-setup';
-import {
-  createTestApp,
-  closeTestApp,
-  TestAppContext,
-} from '../../../../helpers/test-app.setup';
+import { createTestApp, closeTestApp, TestAppContext } from '../../../../helpers/test-app.setup';
 
 describe('Product Handlers Integration (Real DB)', () => {
   let context: TestAppContext;
@@ -41,12 +31,9 @@ describe('Product Handlers Integration (Real DB)', () => {
     });
 
     prismaService = context.prismaService;
-    createHandler =
-      context.module.get<CreateProductHandler>(CreateProductHandler);
-    updateHandler =
-      context.module.get<UpdateProductHandler>(UpdateProductHandler);
-    deleteHandler =
-      context.module.get<DeleteProductHandler>(DeleteProductHandler);
+    createHandler = context.module.get<CreateProductHandler>(CreateProductHandler);
+    updateHandler = context.module.get<UpdateProductHandler>(UpdateProductHandler);
+    deleteHandler = context.module.get<DeleteProductHandler>(DeleteProductHandler);
     getHandler = context.module.get<GetProductHandler>(GetProductHandler);
     listHandler = context.module.get<ListProductsHandler>(ListProductsHandler);
   });
@@ -62,12 +49,7 @@ describe('Product Handlers Integration (Real DB)', () => {
 
   it('should create and persist product to DB', async () => {
     // Arrange
-    const command = new CreateProductCommand(
-      'Integration Product',
-      'Test Description',
-      99.99,
-      50,
-    );
+    const command = new CreateProductCommand('Integration Product', 'Test Description', 99.99, 50);
 
     // Act: Handler → Repository → Real DB
     const result = await createHandler.execute(command);
@@ -146,13 +128,7 @@ describe('Product Handlers Integration (Real DB)', () => {
     });
 
     // Act: Handler → Repository → Real DB
-    const command = new UpdateProductCommand(
-      created.id,
-      'Updated Name',
-      undefined,
-      200,
-      undefined,
-    );
+    const command = new UpdateProductCommand(created.id, 'Updated Name', undefined, 200, undefined);
     const result = await updateHandler.execute(command);
 
     // Assert: Verify response and DB persistence

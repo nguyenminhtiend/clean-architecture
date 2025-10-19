@@ -1,14 +1,10 @@
-import { Test, TestingModule } from '@nestjs/testing';
+import { TestingModule } from '@nestjs/testing';
 import {
   DeleteProductHandler,
   DeleteProductCommand,
 } from '../../../../../src/modules/product/commands/delete-product.handler';
 import { IProductRepository } from '../../../../../src/modules/product/interfaces';
-import {
-  ProductFactory,
-  createMockRepository,
-  createTestModuleBuilder,
-} from '../../../../helpers';
+import { ProductFactory, createMockRepository, createTestModuleBuilder } from '../../../../helpers';
 
 describe('DeleteProductHandler', () => {
   let handler: DeleteProductHandler;
@@ -64,9 +60,7 @@ describe('DeleteProductHandler', () => {
       mockRepository.delete.mockRejectedValue(new Error('Product not found'));
 
       // Act & Assert
-      await expect(handler.execute(command)).rejects.toThrow(
-        'Product not found',
-      );
+      await expect(handler.execute(command)).rejects.toThrow('Product not found');
       expect(mockRepository.delete).toHaveBeenCalledWith('non-existent-id');
     });
 

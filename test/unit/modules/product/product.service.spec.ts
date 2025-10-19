@@ -55,11 +55,8 @@ describe('ProductService', () => {
       const result = await service.getProductById(productId);
 
       // Assert
-      expect(queryBus.execute).toHaveBeenCalledWith(
-        expect.any(GetProductQuery),
-      );
-      const executedQuery = queryBus.execute.mock
-        .calls[0][0] as GetProductQuery;
+      expect(queryBus.execute).toHaveBeenCalledWith(expect.any(GetProductQuery));
+      const executedQuery = queryBus.execute.mock.calls[0][0] as GetProductQuery;
       expect(executedQuery.id).toBe(productId);
       expect(result).toEqual({
         id: mockProduct.id,

@@ -6,20 +6,12 @@ import { ProductService } from './product.service';
 import { PrismaService } from '../../prisma/prisma.service';
 
 // Command Handlers
-import {
-  CreateProductHandler,
-  UpdateProductHandler,
-  DeleteProductHandler,
-} from './commands';
+import { CreateProductHandler, UpdateProductHandler, DeleteProductHandler } from './commands';
 
 // Query Handlers
 import { GetProductHandler, ListProductsHandler } from './queries';
 
-const CommandHandlers = [
-  CreateProductHandler,
-  UpdateProductHandler,
-  DeleteProductHandler,
-];
+const CommandHandlers = [CreateProductHandler, UpdateProductHandler, DeleteProductHandler];
 
 const QueryHandlers = [GetProductHandler, ListProductsHandler];
 

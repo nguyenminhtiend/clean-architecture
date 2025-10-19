@@ -111,17 +111,13 @@ describe('Orders API (e2e)', () => {
         quantity: 3,
       });
 
-      const response = await request(app.getHttpServer())
-        .get('/orders')
-        .expect(200);
+      const response = await request(app.getHttpServer()).get('/orders').expect(200);
 
       expectArrayResponse(response, 1);
     });
 
     it('should return paginated orders', async () => {
-      const response = await request(app.getHttpServer())
-        .get('/orders?skip=0&take=10')
-        .expect(200);
+      const response = await request(app.getHttpServer()).get('/orders?skip=0&take=10').expect(200);
 
       expectArrayResponse(response);
     });
@@ -139,19 +135,15 @@ describe('Orders API (e2e)', () => {
         },
       });
 
-      const createResponse = await request(app.getHttpServer())
-        .post('/orders')
-        .send({
-          customerName: 'John Doe',
-          productId: product.id,
-          quantity: 3,
-        });
+      const createResponse = await request(app.getHttpServer()).post('/orders').send({
+        customerName: 'John Doe',
+        productId: product.id,
+        quantity: 3,
+      });
 
       const orderId = createResponse.body.id;
 
-      const response = await request(app.getHttpServer())
-        .get(`/orders/${orderId}`)
-        .expect(200);
+      const response = await request(app.getHttpServer()).get(`/orders/${orderId}`).expect(200);
 
       expectOrderShape(response.body);
       expect(response.body.id).toBe(orderId);
@@ -177,13 +169,11 @@ describe('Orders API (e2e)', () => {
         },
       });
 
-      const createResponse = await request(app.getHttpServer())
-        .post('/orders')
-        .send({
-          customerName: 'John Doe',
-          productId: product.id,
-          quantity: 3,
-        });
+      const createResponse = await request(app.getHttpServer()).post('/orders').send({
+        customerName: 'John Doe',
+        productId: product.id,
+        quantity: 3,
+      });
 
       const orderId = createResponse.body.id;
 

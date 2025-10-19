@@ -35,14 +35,12 @@ describe('Products API (e2e)', () => {
   describe('Product Lifecycle', () => {
     it('should complete full product lifecycle (create → read → update → delete)', async () => {
       // Create
-      const createResponse = await request(app.getHttpServer())
-        .post('/products')
-        .send({
-          name: 'E2E Test Product',
-          description: 'E2E Test Description',
-          price: 99.99,
-          stock: 50,
-        });
+      const createResponse = await request(app.getHttpServer()).post('/products').send({
+        name: 'E2E Test Product',
+        description: 'E2E Test Description',
+        price: 99.99,
+        stock: 50,
+      });
 
       expectCreatedResponse(createResponse);
       expectProductShape(createResponse.body);
@@ -62,14 +60,10 @@ describe('Products API (e2e)', () => {
       expect(updateResponse.body.name).toBe('Updated Product');
 
       // Delete
-      await request(app.getHttpServer())
-        .delete(`/products/${productId}`)
-        .expect(204);
+      await request(app.getHttpServer()).delete(`/products/${productId}`).expect(204);
 
       // Verify deletion
-      await request(app.getHttpServer())
-        .get(`/products/${productId}`)
-        .expect(404);
+      await request(app.getHttpServer()).get(`/products/${productId}`).expect(404);
     });
   });
 

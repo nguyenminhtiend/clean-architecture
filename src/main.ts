@@ -2,10 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
-import {
-  HttpExceptionFilter,
-  AllExceptionsFilter,
-} from './shared/filters/http-exception.filter';
+import { HttpExceptionFilter, AllExceptionsFilter } from './shared/filters/http-exception.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -45,4 +42,4 @@ async function bootstrap() {
   console.log(`🚀 Application is running on: http://localhost:${port}`);
   console.log(`📚 Swagger documentation: http://localhost:${port}/api`);
 }
-bootstrap();
+void bootstrap();
