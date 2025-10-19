@@ -4,7 +4,9 @@ let prisma: PrismaClient | null = null;
 
 function getPrismaClient(): PrismaClient {
   if (!prisma) {
-    prisma = new PrismaClient();
+    prisma = new PrismaClient({
+      log: [],
+    });
   }
   return prisma;
 }

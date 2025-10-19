@@ -3,6 +3,7 @@ export * from './factories';
 export * from './test-db-setup';
 export * from './test-module.builder';
 export * from './mock-repository.factory';
+export * from './test-app.setup';
 export * from './e2e-test.setup';
 export * from './assertions.helper';
 export * from './test-data.builder';

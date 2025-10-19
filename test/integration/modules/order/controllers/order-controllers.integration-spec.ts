@@ -1,33 +1,29 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { INestApplication, ValidationPipe } from '@nestjs/common';
+import { INestApplication } from '@nestjs/common';
 import request from 'supertest';
 import { OrderModule } from '../../../../../src/modules/order/order.module';
 import { PrismaService } from '../../../../../src/prisma/prisma.service';
 import { clearDatabase } from '../../../../helpers/test-db-setup';
+import {
+  createTestApp,
+  closeTestApp,
+  TestAppContext,
+} from '../../../../helpers/test-app.setup';
 
 describe('Order Controllers Integration (HTTP + Validation)', () => {
   let app: INestApplication;
   let prismaService: PrismaService;
+  let context: TestAppContext;
 
   beforeAll(async () => {
-    const moduleRef: TestingModule = await Test.createTestingModule({
-      imports: [OrderModule],
-    }).compile();
+    context = await createTestApp({
+      moduleToImport: OrderModule,
+      createApp: true,
+      applyExceptionFilter: false,
+      forbidNonWhitelisted: true,
+    });
 
-    app = moduleRef.createNestApplication();
-
-    // Apply validation pipes
-    app.useGlobalPipes(
-      new ValidationPipe({
-        whitelist: true,
-        forbidNonWhitelisted: true,
-        transform: true,
-      }),
-    );
-
-    await app.init();
-
-    prismaService = moduleRef.get<PrismaService>(PrismaService);
+    app = context.app!;
+    prismaService = context.prismaService;
   });
 
   beforeEach(async () => {
@@ -36,7 +32,7 @@ describe('Order Controllers Integration (HTTP + Validation)', () => {
 
   afterAll(async () => {
     await clearDatabase(prismaService);
-    await app.close();
+    await closeTestApp(context);
   });
 
   describe('POST /orders - DTO Validation', () => {
@@ -224,13 +220,13 @@ describe('Order Controllers Integration (HTTP + Validation)', () => {
       await request(app.getHttpServer())
         .patch(`/orders/${order1.id}`)
         .send({ status: 'invalid-status' })
-        .expect(500);
+        .expect(400);
 
       // Empty status
       await request(app.getHttpServer())
         .patch(`/orders/${order1.id}`)
         .send({})
-        .expect(500);
+        .expect(400);
     });
   });
 });

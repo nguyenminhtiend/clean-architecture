@@ -1,4 +1,3 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { ProductModule } from '../../../../../src/modules/product/product.module';
 import { PrismaService } from '../../../../../src/prisma/prisma.service';
 import {
@@ -20,9 +19,14 @@ import {
   ListProductsQuery,
 } from '../../../../../src/modules/product/queries';
 import { clearDatabase } from '../../../../helpers/test-db-setup';
+import {
+  createTestApp,
+  closeTestApp,
+  TestAppContext,
+} from '../../../../helpers/test-app.setup';
 
 describe('Product Handlers Integration (Real DB)', () => {
-  let moduleRef: TestingModule;
+  let context: TestAppContext;
   let prismaService: PrismaService;
   let createHandler: CreateProductHandler;
   let updateHandler: UpdateProductHandler;
@@ -31,18 +35,20 @@ describe('Product Handlers Integration (Real DB)', () => {
   let listHandler: ListProductsHandler;
 
   beforeAll(async () => {
-    moduleRef = await Test.createTestingModule({
-      imports: [ProductModule],
-    }).compile();
+    context = await createTestApp({
+      moduleToImport: ProductModule,
+      createApp: false,
+    });
 
-    await moduleRef.init();
-
-    prismaService = moduleRef.get<PrismaService>(PrismaService);
-    createHandler = moduleRef.get<CreateProductHandler>(CreateProductHandler);
-    updateHandler = moduleRef.get<UpdateProductHandler>(UpdateProductHandler);
-    deleteHandler = moduleRef.get<DeleteProductHandler>(DeleteProductHandler);
-    getHandler = moduleRef.get<GetProductHandler>(GetProductHandler);
-    listHandler = moduleRef.get<ListProductsHandler>(ListProductsHandler);
+    prismaService = context.prismaService;
+    createHandler =
+      context.module.get<CreateProductHandler>(CreateProductHandler);
+    updateHandler =
+      context.module.get<UpdateProductHandler>(UpdateProductHandler);
+    deleteHandler =
+      context.module.get<DeleteProductHandler>(DeleteProductHandler);
+    getHandler = context.module.get<GetProductHandler>(GetProductHandler);
+    listHandler = context.module.get<ListProductsHandler>(ListProductsHandler);
   });
 
   beforeEach(async () => {
@@ -51,7 +57,7 @@ describe('Product Handlers Integration (Real DB)', () => {
 
   afterAll(async () => {
     await clearDatabase(prismaService);
-    await moduleRef.close();
+    await closeTestApp(context);
   });
 
   it('should create and persist product to DB', async () => {

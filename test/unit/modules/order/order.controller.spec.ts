@@ -214,17 +214,5 @@ describe('OrderController', () => {
       expect(executedCommand.status).toBe(updateDto.status);
       expect(result.status).toBe('completed');
     });
-
-    it('should throw error when status is not provided', async () => {
-      // Arrange
-      const orderId = 'test-id';
-      const updateDto = {};
-
-      // Act & Assert
-      await expect(controller.update(orderId, updateDto)).rejects.toThrow(
-        'Status is required',
-      );
-      expect(commandBus.execute).not.toHaveBeenCalled();
-    });
   });
 });

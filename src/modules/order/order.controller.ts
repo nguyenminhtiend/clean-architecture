@@ -94,9 +94,6 @@ export class OrderController {
     @Param('id') id: string,
     @Body() updateOrderDto: UpdateOrderDto,
   ): Promise<OrderResponseDto> {
-    if (!updateOrderDto.status) {
-      throw new Error('Status is required');
-    }
     const command = new UpdateOrderCommand(id, updateOrderDto.status);
     return this.commandBus.execute(command);
   }

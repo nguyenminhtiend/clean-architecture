@@ -1,4 +1,3 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { OrderModule } from '../../../../../src/modules/order/order.module';
 import { PrismaService } from '../../../../../src/prisma/prisma.service';
 import {
@@ -18,9 +17,14 @@ import {
   ListOrdersQuery,
 } from '../../../../../src/modules/order/queries';
 import { clearDatabase } from '../../../../helpers/test-db-setup';
+import {
+  createTestApp,
+  closeTestApp,
+  TestAppContext,
+} from '../../../../helpers/test-app.setup';
 
 describe('Order Handlers Integration (Real DB)', () => {
-  let moduleRef: TestingModule;
+  let context: TestAppContext;
   let prismaService: PrismaService;
   let createHandler: CreateOrderHandler;
   let updateHandler: UpdateOrderHandler;
@@ -28,17 +32,16 @@ describe('Order Handlers Integration (Real DB)', () => {
   let listHandler: ListOrdersHandler;
 
   beforeAll(async () => {
-    moduleRef = await Test.createTestingModule({
-      imports: [OrderModule], // OrderModule already imports ProductModule
-    }).compile();
+    context = await createTestApp({
+      moduleToImport: OrderModule, // OrderModule already imports ProductModule
+      createApp: false,
+    });
 
-    await moduleRef.init();
-
-    prismaService = moduleRef.get<PrismaService>(PrismaService);
-    createHandler = moduleRef.get<CreateOrderHandler>(CreateOrderHandler);
-    updateHandler = moduleRef.get<UpdateOrderHandler>(UpdateOrderHandler);
-    getHandler = moduleRef.get<GetOrderHandler>(GetOrderHandler);
-    listHandler = moduleRef.get<ListOrdersHandler>(ListOrdersHandler);
+    prismaService = context.prismaService;
+    createHandler = context.module.get<CreateOrderHandler>(CreateOrderHandler);
+    updateHandler = context.module.get<UpdateOrderHandler>(UpdateOrderHandler);
+    getHandler = context.module.get<GetOrderHandler>(GetOrderHandler);
+    listHandler = context.module.get<ListOrdersHandler>(ListOrdersHandler);
   });
 
   beforeEach(async () => {
@@ -47,7 +50,7 @@ describe('Order Handlers Integration (Real DB)', () => {
 
   afterAll(async () => {
     await clearDatabase(prismaService);
-    await moduleRef.close();
+    await closeTestApp(context);
   });
 
   it('should create order with product price calculation and persist to DB', async () => {

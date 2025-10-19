@@ -29,4 +29,3 @@ export class UpdateOrderHandler
     return OrderMapper.toDto(updatedOrder);
   }
 }
-

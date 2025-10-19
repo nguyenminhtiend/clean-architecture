@@ -1,4 +1,4 @@
-import { Test, TestingModule } from '@nestjs/testing';
+import { TestingModule } from '@nestjs/testing';
 import { UpdateOrderHandler } from '../../../../../src/modules/order/commands/update-order.handler';
 import { UpdateOrderCommand } from '../../../../../src/modules/order/commands/update-order.command';
 import { IOrderRepository } from '../../../../../src/modules/order/interfaces';

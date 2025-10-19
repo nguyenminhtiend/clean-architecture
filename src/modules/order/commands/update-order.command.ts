@@ -4,4 +4,3 @@ export class UpdateOrderCommand {
     public readonly status: string,
   ) {}
 }
-
