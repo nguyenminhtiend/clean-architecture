@@ -1,0 +1,437 @@
+{
+	"info": {
+		"_postman_id": "product-crud-e2e-collection",
+		"name": "Product CRUD E2E Workflow",
+		"description": "End-to-end testing workflow for Product CRUD operations. Run this collection using the Collection Runner to execute all requests in sequence automatically. The workflow will: 1) Create a product, 2) Retrieve it, 3) Update it, 4) Delete it, and 5) Verify deletion. Use Collection Runner (not individual requests) for the full workflow.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1. Create Product",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Verify successful creation",
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"// Parse response",
+							"const response = pm.response.json();",
+							"",
+							"// Verify response structure",
+							"pm.test(\"Response has required fields\", function () {",
+							"    pm.expect(response).to.have.property('id');",
+							"    pm.expect(response).to.have.property('name');",
+							"    pm.expect(response).to.have.property('price');",
+							"    pm.expect(response).to.have.property('stock');",
+							"    pm.expect(response).to.have.property('createdAt');",
+							"    pm.expect(response).to.have.property('updatedAt');",
+							"});",
+							"",
+							"// Verify data matches input",
+							"pm.test(\"Product data is correct\", function () {",
+							"    pm.expect(response.name).to.eql('Test Product');",
+							"    pm.expect(response.description).to.eql('This is a test product for E2E testing');",
+							"    pm.expect(response.price).to.eql(99.99);",
+							"    pm.expect(response.stock).to.eql(50);",
+							"});",
+							"",
+							"// Save product ID for subsequent requests",
+							"pm.collectionVariables.set('productId', response.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"Test Product\",\n  \"description\": \"This is a test product for E2E testing\",\n  \"price\": 99.99,\n  \"stock\": 50\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/products",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"products"
+					]
+				},
+				"description": "Creates a new product and stores the product ID for use in subsequent requests."
+			},
+			"response": []
+		},
+		{
+			"name": "2. Get Product by ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Verify successful retrieval",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"const response = pm.response.json();",
+							"",
+							"// Verify product ID matches",
+							"pm.test(\"Product ID matches created product\", function () {",
+							"    const productId = pm.collectionVariables.get('productId');",
+							"    pm.expect(response.id).to.eql(productId);",
+							"});",
+							"",
+							"// Verify data is correct",
+							"pm.test(\"Product data is correct\", function () {",
+							"    pm.expect(response.name).to.eql('Test Product');",
+							"    pm.expect(response.description).to.eql('This is a test product for E2E testing');",
+							"    pm.expect(response.price).to.eql(99.99);",
+							"    pm.expect(response.stock).to.eql(50);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/products/{{productId}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"products",
+						"{{productId}}"
+					]
+				},
+				"description": "Retrieves the product that was just created using its ID."
+			},
+			"response": []
+		},
+		{
+			"name": "3. List All Products",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Verify successful retrieval",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"const response = pm.response.json();",
+							"",
+							"// Verify response is an array",
+							"pm.test(\"Response is an array\", function () {",
+							"    pm.expect(response).to.be.an('array');",
+							"});",
+							"",
+							"// Verify our product is in the list",
+							"pm.test(\"Created product is in the list\", function () {",
+							"    const productId = pm.collectionVariables.get('productId');",
+							"    const product = response.find(p => p.id === productId);",
+							"    pm.expect(product).to.not.be.undefined;",
+							"    pm.expect(product.name).to.eql('Test Product');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/products",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"products"
+					]
+				},
+				"description": "Lists all products and verifies that the created product appears in the list."
+			},
+			"response": []
+		},
+		{
+			"name": "4. List Products with Pagination",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Verify successful retrieval",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"const response = pm.response.json();",
+							"",
+							"// Verify response is an array",
+							"pm.test(\"Response is an array\", function () {",
+							"    pm.expect(response).to.be.an('array');",
+							"});",
+							"",
+							"// Verify pagination is working (max 10 items)",
+							"pm.test(\"Response respects pagination limit\", function () {",
+							"    pm.expect(response.length).to.be.at.most(10);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/products?skip=0&take=10",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"products"
+					],
+					"query": [
+						{
+							"key": "skip",
+							"value": "0"
+						},
+						{
+							"key": "take",
+							"value": "10"
+						}
+					]
+				},
+				"description": "Tests pagination functionality by retrieving products with skip and take parameters."
+			},
+			"response": []
+		},
+		{
+			"name": "5. Update Product",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Verify successful update",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"const response = pm.response.json();",
+							"",
+							"// Verify product ID is the same",
+							"pm.test(\"Product ID remains unchanged\", function () {",
+							"    const productId = pm.collectionVariables.get('productId');",
+							"    pm.expect(response.id).to.eql(productId);",
+							"});",
+							"",
+							"// Verify updated data",
+							"pm.test(\"Product data is updated correctly\", function () {",
+							"    pm.expect(response.name).to.eql('Updated Test Product');",
+							"    pm.expect(response.description).to.eql('This product has been updated');",
+							"    pm.expect(response.price).to.eql(149.99);",
+							"    pm.expect(response.stock).to.eql(75);",
+							"});",
+							"",
+							"// Verify updatedAt changed",
+							"pm.test(\"UpdatedAt timestamp changed\", function () {",
+							"    pm.expect(response.updatedAt).to.exist;",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"Updated Test Product\",\n  \"description\": \"This product has been updated\",\n  \"price\": 149.99,\n  \"stock\": 75\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/products/{{productId}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"products",
+						"{{productId}}"
+					]
+				},
+				"description": "Updates the product with new values and verifies the changes."
+			},
+			"response": []
+		},
+		{
+			"name": "6. Verify Product Update",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Verify successful retrieval",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"const response = pm.response.json();",
+							"",
+							"// Verify updated data persisted",
+							"pm.test(\"Updated data persisted correctly\", function () {",
+							"    pm.expect(response.name).to.eql('Updated Test Product');",
+							"    pm.expect(response.description).to.eql('This product has been updated');",
+							"    pm.expect(response.price).to.eql(149.99);",
+							"    pm.expect(response.stock).to.eql(75);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/products/{{productId}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"products",
+						"{{productId}}"
+					]
+				},
+				"description": "Retrieves the product again to verify that the update was persisted."
+			},
+			"response": []
+		},
+		{
+			"name": "7. Delete Product",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Verify successful deletion",
+							"pm.test(\"Status code is 204\", function () {",
+							"    pm.response.to.have.status(204);",
+							"});",
+							"",
+							"// Verify no content returned",
+							"pm.test(\"Response body is empty\", function () {",
+							"    pm.expect(pm.response.text()).to.be.empty;",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/products/{{productId}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"products",
+						"{{productId}}"
+					]
+				},
+				"description": "Deletes the product and verifies successful deletion with a 204 status code."
+			},
+			"response": []
+		},
+		{
+			"name": "8. Verify Product Deletion",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Verify product not found",
+							"pm.test(\"Status code is 404\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});",
+							"",
+							"// Clean up collection variable",
+							"pm.collectionVariables.unset('productId');"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/products/{{productId}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"products",
+						"{{productId}}"
+					]
+				},
+				"description": "Attempts to retrieve the deleted product and verifies it returns a 404 error."
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:3000",
+			"type": "string"
+		},
+		{
+			"key": "productId",
+			"value": "",
+			"type": "string"
+		}
+	]
+}

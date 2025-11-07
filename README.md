@@ -137,6 +137,35 @@ Once the application is running, access Swagger documentation at:
 http://localhost:3000/api
 ```
 
+### Postman Collection
+
+Import the Postman collection and environment for easy API testing:
+
+**Collection:**
+
+- `postman/postman-collection.json` - Complete API collection with all endpoints
+
+**Environments:**
+
+- `postman/postman-environment.json` - Development environment (localhost:3000)
+- `postman/postman-environment-production.json` - Production environment
+
+**Variables:**
+
+- `base_url` - API base URL
+- `product_id` - Auto-populated after creating a product
+- `order_id` - Auto-populated after creating an order
+- `skip` - Pagination skip parameter (default: 0)
+- `take` - Pagination take parameter (default: 10)
+
+**Import Instructions:**
+
+1. Open Postman
+2. Click "Import" button
+3. Import all files from the `postman/` folder
+4. Select the environment from the dropdown
+5. Start making requests!
+
 ## API Endpoints
 
 ### Health
@@ -151,7 +180,14 @@ http://localhost:3000/api
 - `PATCH /products/:id` - Update a product
 - `DELETE /products/:id` - Delete a product
 
-### Example Request
+### Orders
+
+- `POST /orders` - Create a new order
+- `GET /orders` - List all orders (supports pagination with `skip` and `take`)
+- `GET /orders/:id` - Get an order by ID
+- `PATCH /orders/:id` - Update order status (pending, completed, cancelled)
+
+### Example Requests
 
 **Create Product:**
 
@@ -163,6 +199,18 @@ curl -X POST http://localhost:3000/products \
     "description": "High-performance laptop",
     "price": 1299.99,
     "stock": 50
+  }'
+```
+
+**Create Order:**
+
+```bash
+curl -X POST http://localhost:3000/orders \
+  -H "Content-Type: application/json" \
+  -d '{
+    "customerName": "John Doe",
+    "productId": "uuid-here",
+    "quantity": 2
   }'
 ```
 
